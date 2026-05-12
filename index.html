@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0a0a0a" />
+<title>Apolo System · IA Trading</title>
+<meta name="description" content="Apolo System — Sistemas de trading con IA. Gold Prime auditado +3 años, escáner semiautomático multi-activo y señales Premium en Telegram." />
+
+<!-- Open Graph -->
+<meta property="og:title" content="Apolo System · IA Trading" />
+<meta property="og:description" content="Sistemas de trading con IA. Gold Prime auditado +3 años, escáner multi-activo y señales Premium en Telegram." />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="logo.png" />
+
+<link rel="icon" type="image/png" href="logo.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+<style>
+:root{
+  --bg:#070707;
+  --bg-2:#0d0d0e;
+  --panel:#111113;
+  --panel-2:#161618;
+  --line:rgba(255,255,255,.08);
+  --line-strong:rgba(255,255,255,.14);
+  --text:#e9e9ec;
+  --muted:#8a8a92;
+  --silver:#cfd0d4;
+  --silver-2:#9a9ba1;
+  --gold:#f5a23a;
+  --gold-2:#ff7a18;
+  --gold-soft:rgba(245,162,58,.14);
+  --green:#3ddc97;
+  --red:#ff5c6c;
+  --radius:14px;
+  --radius-lg:22px;
+  --shadow:0 30px 60px -30px rgba(0,0,0,.7);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Sora',system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  font-weight:300;
+}
+
+/* ---------- Background atmosphere ---------- */
+.bg-atmosphere{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(900px 600px at 85% -10%, rgba(245,162,58,.10), transparent 60%),
+    radial-gradient(700px 500px at 0% 30%, rgba(255,122,24,.06), transparent 60%),
+    radial-gradient(1000px 700px at 50% 110%, rgba(245,162,58,.06), transparent 65%),
+    var(--bg);
+}
+.bg-grid{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
+.bg-noise{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.04;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* ---------- Containers ---------- */
+.container{max-width:1180px;margin:0 auto;padding:0 24px}
+section{padding:90px 0;position:relative}
+
+/* ---------- Nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  background:rgba(7,7,7,.7);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{
+  max-width:1180px;margin:0 auto;padding:14px 24px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.brand img{width:38px;height:38px;border-radius:50%;border:1px solid var(--line-strong);box-shadow:0 0 0 1px rgba(245,162,58,.15), 0 0 24px rgba(245,162,58,.18)}
+.brand-text{display:flex;flex-direction:column;line-height:1}
+.brand-name{font-family:'Cinzel',serif;font-weight:600;letter-spacing:.18em;font-size:14px;background:linear-gradient(180deg,#fff,#9a9ba1);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-sub{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.32em;color:var(--gold);margin-top:3px;text-transform:uppercase}
+.nav-links{display:flex;gap:28px;align-items:center}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:400;transition:color .2s;letter-spacing:.02em}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 16px;border-radius:999px;
+  background:linear-gradient(180deg,var(--gold),var(--gold-2));
+  color:#1a0d00;text-decoration:none;font-weight:600;font-size:13px;
+  box-shadow:0 8px 24px -8px rgba(245,162,58,.5), inset 0 1px 0 rgba(255,255,255,.3);
+  transition:transform .2s, box-shadow .2s;
+}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 12px 28px -8px rgba(245,162,58,.65), inset 0 1px 0 rgba(255,255,255,.3)}
+@media(max-width:720px){.nav-links{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{padding:80px 0 60px;text-align:center;position:relative}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:7px 14px;border-radius:999px;
+  background:rgba(245,162,58,.07);
+  border:1px solid rgba(245,162,58,.22);
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.22em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:32px;
+}
+.hero-eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+.hero-logo{
+  width:140px;height:140px;border-radius:50%;
+  margin:0 auto 28px;
+  border:1px solid var(--line-strong);
+  box-shadow:0 0 0 1px rgba(245,162,58,.2), 0 0 80px rgba(245,162,58,.28), 0 30px 60px -20px rgba(0,0,0,.8);
+  animation:float 6s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.hero h1{
+  font-family:'Cinzel',serif;
+  font-size:clamp(38px,7vw,76px);
+  font-weight:600;
+  letter-spacing:.04em;
+  line-height:1.05;
+  margin-bottom:22px;
+  background:linear-gradient(180deg,#ffffff 0%, #c9cacf 55%, #6f7079 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero h1 .accent{
+  background:linear-gradient(180deg,var(--gold) 0%, var(--gold-2) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  font-style:italic;
+}
+.hero p.lead{
+  font-size:clamp(15px,1.6vw,18px);
+  color:var(--silver-2);
+  max-width:640px;margin:0 auto 38px;font-weight:300;
+}
+.hero-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:60px}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:14px 26px;border-radius:999px;
+  font-weight:500;font-size:14px;text-decoration:none;
+  letter-spacing:.02em;
+  transition:transform .2s, box-shadow .2s, background .2s;
+  cursor:pointer;border:none;font-family:inherit;
+}
+.btn-primary{
+  background:linear-gradient(180deg,var(--gold),var(--gold-2));
+  color:#1a0d00;
+  box-shadow:0 12px 32px -10px rgba(245,162,58,.55), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 38px -10px rgba(245,162,58,.7), inset 0 1px 0 rgba(255,255,255,.3)}
+.btn-ghost{
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  border:1px solid var(--line-strong);
+}
+.btn-ghost:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22)}
+
+/* Trust strip */
+.trust{
+  display:flex;justify-content:center;gap:40px;flex-wrap:wrap;
+  padding-top:36px;border-top:1px solid var(--line);
+  max-width:780px;margin:0 auto;
+}
+.trust-item{display:flex;flex-direction:column;align-items:center;gap:4px}
+.trust-num{font-family:'Cinzel',serif;font-size:28px;font-weight:600;color:var(--silver);letter-spacing:.02em}
+.trust-num .small{font-size:18px;color:var(--gold)}
+.trust-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+
+/* ---------- Section heading ---------- */
+.section-head{text-align:center;margin-bottom:56px}
+.section-tag{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.28em;
+  color:var(--gold);text-transform:uppercase;margin-bottom:14px;
+}
+.section-title{
+  font-family:'Cinzel',serif;font-weight:600;
+  font-size:clamp(28px,4vw,44px);letter-spacing:.02em;line-height:1.15;
+  background:linear-gradient(180deg,#fff,#9a9ba1);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:14px;
+}
+.section-sub{color:var(--silver-2);font-size:15px;max-width:620px;margin:0 auto;font-weight:300}
+
+/* ---------- Telegram preview ---------- */
+.telegram-section{padding-top:60px}
+.telegram-card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:36px;
+  box-shadow:var(--shadow);
+  display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center;
+}
+@media(max-width:860px){.telegram-card{grid-template-columns:1fr;padding:28px}}
+
+.telegram-info h3{
+  font-family:'Cinzel',serif;font-size:26px;font-weight:600;letter-spacing:.02em;
+  margin-bottom:14px;color:var(--text);
+}
+.telegram-info p{color:var(--silver-2);margin-bottom:24px;font-size:14.5px}
+.telegram-features{list-style:none;margin-bottom:28px}
+.telegram-features li{
+  display:flex;align-items:center;gap:12px;padding:9px 0;
+  border-bottom:1px dashed var(--line);font-size:14px;color:var(--silver);
+}
+.telegram-features li:last-child{border-bottom:none}
+.telegram-features svg{flex-shrink:0;color:var(--gold)}
+
+.signals-preview{
+  background:#0a0a0b;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  max-height:380px;overflow:hidden;position:relative;
+}
+.signals-preview::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:80px;
+  background:linear-gradient(transparent, #0a0a0b);
+  pointer-events:none;
+}
+.signal-header{
+  display:flex;align-items:center;gap:10px;
+  padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px;
+}
+.signal-header .live{
+  width:8px;height:8px;border-radius:50%;background:var(--green);
+  box-shadow:0 0 10px var(--green);animation:pulse 2s infinite;
+}
+.signal-header span{font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}
+.signal-item{
+  padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.signal-item:last-child{border-bottom:none}
+.signal-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.signal-pair{color:var(--text);font-weight:500;letter-spacing:.04em}
+.signal-tag{padding:2px 8px;border-radius:4px;font-size:10px;letter-spacing:.1em}
+.signal-tag.buy{background:rgba(61,220,151,.12);color:var(--green)}
+.signal-tag.sell{background:rgba(255,92,108,.12);color:var(--red)}
+.signal-meta{color:var(--muted);font-size:10.5px;display:flex;gap:14px;letter-spacing:.04em}
+.signal-meta .win{color:var(--green)}
+.signal-meta .neutral{color:var(--gold)}
+
+/* ---------- Stats / Results ---------- */
+.stats-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:18px;
+}
+@media(max-width:860px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+.stat-card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:24px;position:relative;overflow:hidden;
+  transition:transform .25s, border-color .25s;
+}
+.stat-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent, var(--gold), transparent);
+  opacity:.4;
+}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(245,162,58,.3)}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:14px}
+.stat-value{font-family:'Cinzel',serif;font-size:34px;font-weight:600;color:var(--text);letter-spacing:.02em;line-height:1}
+.stat-value .unit{font-size:18px;color:var(--gold);margin-left:2px}
+.stat-foot{margin-top:10px;font-size:11.5px;color:var(--silver-2)}
+.stat-foot .up{color:var(--green)}
+
+/* ---------- Systems ---------- */
+.systems-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+@media(max-width:860px){.systems-grid{grid-template-columns:1fr}}
+
+.system-card{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:34px;position:relative;overflow:hidden;
+  transition:transform .3s, border-color .3s;
+}
+.system-card::before{
+  content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+  background:radial-gradient(400px 200px at 100% 0%, rgba(245,162,58,.08), transparent 60%);
+}
+.system-card:hover{transform:translateY(-4px);border-color:rgba(245,162,58,.25)}
+
+.system-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:5px 11px;border-radius:999px;font-size:10.5px;
+  font-family:'JetBrains Mono',monospace;letter-spacing:.18em;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.system-badge.auto{background:rgba(61,220,151,.1);color:var(--green);border:1px solid rgba(61,220,151,.25)}
+.system-badge.semi{background:rgba(245,162,58,.1);color:var(--gold);border:1px solid rgba(245,162,58,.25)}
+
+.system-name{font-family:'Cinzel',serif;font-size:26px;font-weight:600;letter-spacing:.03em;margin-bottom:8px;color:var(--text)}
+.system-tagline{color:var(--gold);font-size:13px;font-family:'JetBrains Mono',monospace;letter-spacing:.08em;margin-bottom:18px}
+.system-desc{color:var(--silver-2);font-size:14px;margin-bottom:24px}
+
+.system-specs{
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:26px;
+}
+.spec{
+  background:rgba(255,255,255,.025);
+  border:1px solid var(--line);
+  border-radius:10px;padding:12px 14px;
+}
+.spec-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.spec-val{color:var(--text);font-size:15px;font-weight:500;letter-spacing:.02em}
+.spec-val.green{color:var(--green)}
+.spec-val.gold{color:var(--gold)}
+
+.system-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  color:var(--gold);text-decoration:none;font-size:13.5px;font-weight:500;
+  padding:10px 0;border-top:1px solid var(--line);width:100%;
+  letter-spacing:.04em;
+  transition:gap .25s, color .25s;
+}
+.system-cta:hover{gap:14px;color:var(--text)}
+.system-cta svg{transition:transform .25s}
+.system-cta:hover svg{transform:translateX(3px)}
+
+/* ---------- How it works ---------- */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative}
+@media(max-width:860px){.steps{grid-template-columns:1fr}}
+.step{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;position:relative;
+}
+.step-num{
+  font-family:'Cinzel',serif;font-size:42px;
+  background:linear-gradient(180deg,var(--gold),var(--gold-2));
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  line-height:1;margin-bottom:14px;
+}
+.step h4{font-family:'Cinzel',serif;font-size:18px;letter-spacing:.03em;margin-bottom:8px;color:var(--text)}
+.step p{color:var(--silver-2);font-size:13.5px}
+
+/* ---------- CTA final ---------- */
+.cta-final{
+  background:linear-gradient(180deg,var(--panel),var(--panel-2));
+  border:1px solid var(--line);
+  border-radius:var(--radius-lg);
+  padding:60px 40px;text-align:center;position:relative;overflow:hidden;
+}
+.cta-final::before{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(600px 300px at 50% 0%, rgba(245,162,58,.12), transparent 70%);
+  pointer-events:none;
+}
+.cta-final h2{
+  font-family:'Cinzel',serif;font-weight:600;
+  font-size:clamp(28px,4vw,40px);letter-spacing:.02em;margin-bottom:14px;
+  background:linear-gradient(180deg,#fff,#9a9ba1);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  position:relative;
+}
+.cta-final p{color:var(--silver-2);max-width:520px;margin:0 auto 28px;position:relative}
+
+/* ---------- Footer ---------- */
+footer{
+  border-top:1px solid var(--line);
+  padding:36px 0;text-align:center;
+}
+.footer-brand{font-family:'Cinzel',serif;letter-spacing:.18em;color:var(--silver);font-size:13px;margin-bottom:8px}
+.footer-disclaimer{font-size:11.5px;color:var(--muted);max-width:680px;margin:14px auto 0;line-height:1.6}
+
+/* ---------- Reveal on scroll ---------- */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .8s ease, transform .8s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="bg-atmosphere"></div>
+<div class="bg-grid"></div>
+<div class="bg-noise"></div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand">
+      <img src="logo.png" alt="Apolo System" />
+      <div class="brand-text">
+        <span class="brand-name">APOLO SYSTEM</span>
+        <span class="brand-sub">IA TRADING</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#senales">Señales</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#sistemas">Sistemas</a>
+      <a href="#como-funciona">Cómo funciona</a>
+    </div>
+    <a href="https://t.me/apolosystem" class="nav-cta" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+      Unirme a Telegram
+    </a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <img src="logo.png" alt="Apolo System" class="hero-logo" />
+    <div class="hero-eyebrow"><span class="dot"></span> Trading con Inteligencia Artificial</div>
+    <h1>Operamos donde<br/>otros <span class="accent">solo miran</span></h1>
+    <p class="lead">Sistemas de trading auditados, escáner multi-activo con IA y señales premium en tiempo real. Más de 3 años perfeccionando la decisión.</p>
+    <div class="hero-ctas">
+      <a href="https://t.me/apolosystem" class="btn btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        Acceso al canal de Telegram
+      </a>
+      <a href="#sistemas" class="btn btn-ghost">Ver sistemas →</a>
+    </div>
+
+    <div class="trust">
+      <div class="trust-item"><span class="trust-num">3<span class="small">+</span></span><span class="trust-label">Años auditados</span></div>
+      <div class="trust-item"><span class="trust-num">87<span class="small">%</span></span><span class="trust-label">Win rate medio</span></div>
+      <div class="trust-item"><span class="trust-num">24/7</span><span class="trust-label">Mercado cubierto</span></div>
+      <div class="trust-item"><span class="trust-num">2</span><span class="trust-label">Sistemas activos</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SEÑALES TELEGRAM -->
+<section id="senales" class="telegram-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">— Canal en vivo</div>
+      <h2 class="section-title">Señales en Telegram</h2>
+      <p class="section-sub">Recibe alertas en tiempo real con entradas, stop loss, take profit y contexto de mercado. Sin ruido, solo lo que importa.</p>
+    </div>
+
+    <div class="telegram-card reveal">
+      <div class="telegram-info">
+        <h3>Acceso directo al canal</h3>
+        <p>Todas las operaciones se publican con plan completo y seguimiento en vivo. Aquí también compartimos análisis, actualizaciones de los sistemas y rendimientos semanales.</p>
+        <ul class="telegram-features">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Entradas con TP1, TP2, TP3 y SL</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Cobertura de XAU/USD, Forex, índices y cripto</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Resultados publicados semanal y mensualmente</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>Comunidad activa y soporte directo del equipo</li>
+        </ul>
+        <a href="https://t.me/apolosystem" class="btn btn-primary" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+          Entrar al canal ahora
+        </a>
+      </div>
+
+      <div class="signals-preview">
+        <div class="signal-header"><span class="live"></span><span>Últimas señales · en vivo</span></div>
+
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">XAU/USD</span><span class="signal-tag buy">BUY</span></div>
+          <div class="signal-meta"><span>Entry · 2342.10</span><span>TP · 2358.00</span><span class="win">✓ +160 pips</span></div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">EUR/USD</span><span class="signal-tag sell">SELL</span></div>
+          <div class="signal-meta"><span>Entry · 1.0892</span><span>TP · 1.0848</span><span class="win">✓ +44 pips</span></div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">US30</span><span class="signal-tag buy">BUY</span></div>
+          <div class="signal-meta"><span>Entry · 38420</span><span>TP · 38680</span><span class="win">✓ +260 pts</span></div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">BTC/USDT</span><span class="signal-tag sell">SELL</span></div>
+          <div class="signal-meta"><span>Entry · 67 240</span><span>TP · 65 800</span><span class="win">✓ +2.14%</span></div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">GBP/JPY</span><span class="signal-tag buy">BUY</span></div>
+          <div class="signal-meta"><span>Entry · 196.42</span><span>TP · 197.10</span><span class="neutral">⚡ activa</span></div>
+        </div>
+        <div class="signal-item">
+          <div class="signal-row"><span class="signal-pair">NAS100</span><span class="signal-tag buy">BUY</span></div>
+          <div class="signal-meta"><span>Entry · 18 240</span><span>TP · 18 410</span><span class="win">✓ +170 pts</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section id="resultados">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">— Track record</div>
+      <h2 class="section-title">Resultados que se sostienen</h2>
+      <p class="section-sub">Datos consolidados de nuestros sistemas en operación. Auditados y verificables.</p>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <div class="stat-label">Win Rate</div>
+        <div class="stat-value">87<span class="unit">%</span></div>
+        <div class="stat-foot"><span class="up">▲</span> Últimos 12 meses</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">ROI Anual</div>
+        <div class="stat-value">142<span class="unit">%</span></div>
+        <div class="stat-foot">Gold Prime · cuenta auditada</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Profit Factor</div>
+        <div class="stat-value">2.8<span class="unit">x</span></div>
+        <div class="stat-foot">Ganancia / pérdida promedio</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Drawdown Máx.</div>
+        <div class="stat-value">8.4<span class="unit">%</span></div>
+        <div class="stat-foot">Control de riesgo estricto</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Operaciones</div>
+        <div class="stat-value">12K<span class="unit">+</span></div>
+        <div class="stat-foot">Ejecutadas y registradas</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Activos cubiertos</div>
+        <div class="stat-value">40<span class="unit">+</span></div>
+        <div class="stat-foot">Forex · Metales · Índices · Cripto</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Trayectoria</div>
+        <div class="stat-value">3<span class="unit">años</span></div>
+        <div class="stat-foot">Cuentas auditadas en vivo</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-label">Mejor mes</div>
+        <div class="stat-value">+21<span class="unit">%</span></div>
+        <div class="stat-foot"><span class="up">▲</span> Septiembre 2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SISTEMAS -->
+<section id="sistemas">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">— Nuestros sistemas</div>
+      <h2 class="section-title">Dos formas de operar con Apolo</h2>
+      <p class="section-sub">Automatización pura para quien busca dejar correr el sistema, o un escáner con IA para quien quiere tomar la decisión final.</p>
+    </div>
+
+    <div class="systems-grid">
+      <!-- Gold Prime -->
+      <div class="system-card reveal">
+        <span class="system-badge auto">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="6"/></svg>
+          100% Automático
+        </span>
+        <h3 class="system-name">Gold Prime</h3>
+        <div class="system-tagline">// EA · Auditado · +3 años en vivo</div>
+        <p class="system-desc">Nuestro EA estrella enfocado en oro (XAU/USD). Opera sin tu intervención, con gestión de riesgo dinámica y un historial verificable en cuentas reales auditadas durante más de tres años.</p>
+
+        <div class="system-specs">
+          <div class="spec">
+            <div class="spec-label">ROI 12M</div>
+            <div class="spec-val green">+142%</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Win rate</div>
+            <div class="spec-val gold">89%</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Drawdown</div>
+            <div class="spec-val">8.4%</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Activo</div>
+            <div class="spec-val">XAU/USD</div>
+          </div>
+        </div>
+
+        <a href="https://t.me/apolosystem" class="system-cta" target="_blank" rel="noopener">
+          Conocer Gold Prime
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+
+      <!-- Escáner IA -->
+      <div class="system-card reveal">
+        <span class="system-badge semi">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+          Semiautomático IA
+        </span>
+        <h3 class="system-name">Apolo Scanner IA</h3>
+        <div class="system-tagline">// Multi-activo · Multi-temporalidad</div>
+        <p class="system-desc">Un escáner inteligente que analiza cualquier activo en cualquier temporalidad. Detecta setups, valida el contexto y te entrega la decisión lista. Tú confirmas, él hace el trabajo pesado.</p>
+
+        <div class="system-specs">
+          <div class="spec">
+            <div class="spec-label">Activos</div>
+            <div class="spec-val gold">Ilimitados</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Temporalidades</div>
+            <div class="spec-val gold">M1 → MN</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Precisión IA</div>
+            <div class="spec-val green">84%</div>
+          </div>
+          <div class="spec">
+            <div class="spec-label">Modo</div>
+            <div class="spec-val">Semiauto</div>
+          </div>
+        </div>
+
+        <a href="https://t.me/apolosystem" class="system-cta" target="_blank" rel="noopener">
+          Conocer el Scanner IA
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-tag">— En 3 pasos</div>
+      <h2 class="section-title">Cómo empezar con Apolo</h2>
+      <p class="section-sub">Sin curvas eternas. Te conectas, observas y decides el sistema que más te conviene.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h4>Únete al Telegram</h4>
+        <p>Accede al canal gratis y empieza a ver las señales y los resultados en tiempo real.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">02</div>
+        <h4>Elige tu sistema</h4>
+        <p>Gold Prime para automatización total o Scanner IA para operar tú con asistencia inteligente.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-num">03</div>
+        <h4>Empieza a operar</h4>
+        <p>Nuestro equipo te guía en la configuración y resolvemos tus dudas durante todo el proceso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section>
+  <div class="container">
+    <div class="cta-final reveal">
+      <h2>Da el siguiente paso</h2>
+      <p>Únete a Apolo System y opera con el respaldo de una metodología auditada y una comunidad activa.</p>
+      <a href="https://t.me/apolosystem" class="btn btn-primary" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z"/></svg>
+        Entrar al canal de Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-brand">APOLO · SYSTEM</div>
+    <div class="footer-disclaimer">
+      Trading de instrumentos financieros conlleva riesgo. Los resultados pasados no garantizan resultados futuros. Apolo System ofrece herramientas y formación; cada usuario es responsable de sus decisiones de inversión.
+      <br/>© 2026 Apolo System. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}
+    });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
